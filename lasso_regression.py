@@ -13,23 +13,23 @@ from sklearn.cross_validation import train_test_split
 from sklearn.linear_model import LassoLarsCV
  
 #Load the dataset
-data = pd.read_csv("tree_addhealth.csv")
+data = pd.read_csv("shot_logs.csv")
 
 #upper-case all DataFrame column names
 data.columns = map(str.upper, data.columns)
 
 # Data Management
 data_clean = data.dropna()
-recode1 = {1:1, 2:0}
-data_clean['MALE']= data_clean['BIO_SEX'].map(recode1)
+recode1 = {'made':1, 'missed':0}
+data_clean['SHOT_RESULT']= data_clean['SHOT_RESULT'].map(recode1)
+
+recode1 = {'W':1, 'L':0}
+data_clean['W']= data_clean['W'].map(recode1)
 
 #select predictor variables and target variable as separate data sets  
-predvar= data_clean[['MALE','HISPANIC','WHITE','BLACK','NAMERICAN','ASIAN',
-'AGE','ALCEVR1','ALCPROBS1','MAREVER1','COCEVER1','INHEVER1','CIGAVAIL','DEP1',
-'ESTEEM1','VIOL1','PASSIST','DEVIANT1','GPA1','EXPEL1','FAMCONCT','PARACTV',
-'PARPRES']]
+predvar= data_clean[['FINAL_MARGIN', 'SHOT_NUMBER', 'PERIOD', 'SHOT_CLOCK', 'DRIBBLES', 'TOUCH_TIME', 'SHOT_DIST', 'PTS_TYPE', 'CLOSEST_DEFENDER_PLAYER_ID', 'CLOSE_DEF_DIST']]
 
-target = data_clean.SCHCONN1
+target = data_clean.SHOT_RESULT
  
 # standardize predictors to have mean=0 and sd=1
 predictors=predvar.copy()
